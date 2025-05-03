@@ -125,6 +125,7 @@ void MHI_AC_Ctrl_Core::set_frame_size(byte framesize) {
 }
 
 int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
+  max_time_ms = 500;
   const byte opdataCnt = sizeof(opdata) / sizeof(byte) / 2;
   static byte opdataNo = 0;               //
   long startMillis = millis();             // start time of this loop run
