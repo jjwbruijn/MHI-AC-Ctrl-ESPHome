@@ -56,7 +56,7 @@ void MHI_AC_Ctrl_Core::reset_old_values() {  // used e.g. when MQTT connection t
 
 void MHI_AC_Ctrl_Core::init() {
   //MeasureFrequency(m_cbiStatus);
-  pinMode(SCK_PIN, INPUT_PULLDOWN);
+  pinMode(SCK_PIN, INPUT);
   pinMode(MOSI_PIN, INPUT);
   pinMode(MISO_PIN, OUTPUT);
   MHI_AC_Ctrl_Core::reset_old_values();
@@ -244,7 +244,7 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
   // wait for falling edge
   while (digitalRead(SCK_PIN)) {
         yield();
-        if (millis() - startMillis > 100)
+        if (millis() - startMillis > 1000)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
    }
 
@@ -258,15 +258,14 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
     //Serial.printf("x%02x ", MISO_frame[byte_cnt]);
     MOSI_byte = 0;
     byte bit_mask = 1;
-    for (uint8_t bit_cnt = 0; bit_cnt < 8; bit_cnt++) { // read and write 1 byte
-      
-      SCKMillis = millis();
 
+    // read and write 1 byte
+    SCKMillis = millis();
+    for (uint8_t bit_cnt = 0; bit_cnt < 8; bit_cnt++) { 
+      
       while (digitalRead(SCK_PIN)) { // wait for falling edge
-        if (millis() - startMillis > max_time_ms)
-          return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
-        //if ((millis() - SCKMillis > 3)&&(byte_cnt))
-          //return byte_cnt;
+        if ((millis() - SCKMillis > 1)&&(byte_cnt))
+          return byte_cnt;
       } 
 
       // bit out
