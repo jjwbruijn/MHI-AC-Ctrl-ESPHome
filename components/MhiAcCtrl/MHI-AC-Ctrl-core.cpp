@@ -246,7 +246,9 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
       SCKMillis = millis();
       while (digitalRead(SCK_PIN)) { // wait for falling edge
         if (millis() - startMillis > max_time_ms)
-          return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection    
+          return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
+        if (millis() - SCKMillis > 10)
+          return byte_cnt;
       } 
       if ((MISO_frame[byte_cnt] & bit_mask) > 0)
         digitalWrite(MISO_PIN, 1);
