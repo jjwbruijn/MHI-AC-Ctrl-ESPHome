@@ -240,8 +240,8 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
   //Serial.print(F("MISO:"));
   // read/write MOSI/MISO frame
    while (digitalRead(SCK_PIN)) { // wait for falling edge
-        if (millis() - startMillis > max_time_ms)
-          yield();
+        yield();
+        if (millis() - startMillis > 400)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
    }
   for (uint8_t byte_cnt = 0; byte_cnt < frameSize; byte_cnt++) { // read and write a data packet of 20 bytes
