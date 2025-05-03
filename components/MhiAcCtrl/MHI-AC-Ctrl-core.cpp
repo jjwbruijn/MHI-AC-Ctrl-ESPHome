@@ -267,7 +267,7 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
         if ((millis() - SCKMillis > 2)&&(byte_cnt))
           return byte_cnt;
       } 
-
+      delayMicroseconds(100)
       // bit out
       if ((MISO_frame[byte_cnt] & bit_mask) > 0)
         digitalWrite(MISO_PIN, 1);
@@ -276,12 +276,12 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
 
       // wait for rising edge
       while (!digitalRead(SCK_PIN)) {} // wait for rising edge
-
+      
       // sample bit in 
       if (digitalRead(MOSI_PIN))
         MOSI_byte += bit_mask;
       bit_mask = bit_mask << 1;
-      
+      delayMicroseconds(100)
     }
     if ((((MOSI_frame[SB0] & 0xfe) != 0x6c) | (MOSI_frame[SB1] != 0x80) | (MOSI_frame[SB2] != 0x04))&&(byte_cnt == 4))
       return -13;
