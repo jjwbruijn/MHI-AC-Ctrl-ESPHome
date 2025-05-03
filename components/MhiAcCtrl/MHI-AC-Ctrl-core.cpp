@@ -239,11 +239,15 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
   //Serial.println();
   //Serial.print(F("MISO:"));
   // read/write MOSI/MISO frame
-   while (digitalRead(SCK_PIN)) { // wait for falling edge
+  long framestart = millis();
+  while (digitalRead(SCK_PIN)) { // wait for falling edge
         yield();
         if (millis() - startMillis > 400)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
    }
+  if(millis() - framestart < 5){
+    return -14;
+  }
   for (uint8_t byte_cnt = 0; byte_cnt < frameSize; byte_cnt++) { // read and write a data packet of 20 bytes
     //Serial.printf("x%02x ", MISO_frame[byte_cnt]);
     MOSI_byte = 0;
