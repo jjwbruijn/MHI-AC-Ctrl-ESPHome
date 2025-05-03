@@ -33,8 +33,8 @@ const byte opdata[][2] PROGMEM = {
 
 // pin defintions
 #define SCK_PIN  12
-#define MOSI_PIN 9
-#define MISO_PIN 11
+#define MOSI_PIN 11
+#define MISO_PIN 9
 
 // constants for the frame
 #define SB0 0
