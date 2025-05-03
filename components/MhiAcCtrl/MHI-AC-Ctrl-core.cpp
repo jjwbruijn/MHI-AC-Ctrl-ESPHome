@@ -267,7 +267,7 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
         if ((millis() - SCKMillis > 2)&&(byte_cnt))
           return byte_cnt;
       } 
-      delayMicroseconds(100)
+      delayMicroseconds(100);
       // bit out
       if ((MISO_frame[byte_cnt] & bit_mask) > 0)
         digitalWrite(MISO_PIN, 1);
