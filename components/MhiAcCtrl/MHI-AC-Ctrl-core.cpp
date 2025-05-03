@@ -146,12 +146,14 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
    
   call_counter++;
   int SCKMillis = millis();               // time of last SCK low level
+/*
   while (millis() - SCKMillis < 5) {      // wait for 5ms stable high signal to detect a frame start
     if (!digitalRead(SCK_PIN))
       SCKMillis = millis();
     if (millis() - startMillis > max_time_ms)
       return err_msg_timeout_SCK_low;       // SCK stuck@ low error detection
   }
+  */
   // build the next MISO frame
 
   doubleframe = !doubleframe;             // toggle every frame
