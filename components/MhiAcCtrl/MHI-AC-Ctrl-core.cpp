@@ -240,18 +240,21 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
   //Serial.print(F("MISO:"));
   // read/write MOSI/MISO frame
   long framestart = millis();
-  
-  while (digitalRead(SCK_PIN)) { // wait for falling edge
+
+  // wait for falling edge
+  while (digitalRead(SCK_PIN)) {
         yield();
         if (millis() - startMillis > 100)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
    }
 
   // check if we waited long enough for the frame to start
-  if(millis() - framestart < 5){
+  if(millis() - framestart < 8){
     return -14;
   }
-  for (uint8_t byte_cnt = 0; byte_cnt < frameSize; byte_cnt++) { // read and write a data packet of 20 bytes
+
+  // read and write a data packet of 20 bytes
+  for (uint8_t byte_cnt = 0; byte_cnt < frameSize; byte_cnt++) { 
     //Serial.printf("x%02x ", MISO_frame[byte_cnt]);
     MOSI_byte = 0;
     byte bit_mask = 1;
@@ -262,8 +265,8 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
       while (digitalRead(SCK_PIN)) { // wait for falling edge
         if (millis() - startMillis > max_time_ms)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
-        if ((millis() - SCKMillis > 3)&&(byte_cnt))
-          return byte_cnt;
+        //if ((millis() - SCKMillis > 3)&&(byte_cnt))
+          //return byte_cnt;
       } 
 
       // bit out
