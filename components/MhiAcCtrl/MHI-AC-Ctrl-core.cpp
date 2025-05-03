@@ -264,8 +264,8 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
     for (uint8_t bit_cnt = 0; bit_cnt < 8; bit_cnt++) { 
       
       while (digitalRead(SCK_PIN)) { // wait for falling edge
-        if ((millis() - SCKMillis > 1)&&(byte_cnt))
-          return byte_cnt;
+        //if ((millis() - SCKMillis > 1)&&(byte_cnt))
+          //return byte_cnt;
       } 
 
       // bit out
