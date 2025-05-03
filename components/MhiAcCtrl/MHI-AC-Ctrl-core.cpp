@@ -262,8 +262,6 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
       MOSI_frame[byte_cnt] = MOSI_byte;
     }
   }
-  ESP_LOGE(TAG, "mhi_ac_ctrl_core,loop e: %i %i %i %i", MOSI_frame[0], MOSI_frame[1], MOSI_frame[2], MOSI_frame[3]);
-
   
   checksum = calc_checksum(MOSI_frame);
   if (((MOSI_frame[SB0] & 0xfe) != 0x6c) | (MOSI_frame[SB1] != 0x80) | (MOSI_frame[SB2] != 0x04))
