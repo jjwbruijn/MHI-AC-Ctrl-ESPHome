@@ -253,7 +253,7 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
       while (digitalRead(SCK_PIN)) { // wait for falling edge
         if (millis() - startMillis > max_time_ms)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
-        if ((millis() - SCKMillis > 2)&&(byte_cnt))
+        if ((millis() - SCKMillis > 3)&&(byte_cnt))
           return byte_cnt;
       } 
       if ((MISO_frame[byte_cnt] & bit_mask) > 0)
@@ -265,6 +265,8 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
         MOSI_byte += bit_mask;
       bit_mask = bit_mask << 1;
     }
+    if ((((MOSI_frame[SB0] & 0xfe) != 0x6c) | (MOSI_frame[SB1] != 0x80) | (MOSI_frame[SB2] != 0x04))&&(byte_cnt = 4))
+    return -13;
     if (MOSI_frame[byte_cnt] != MOSI_byte) {
       new_datapacket_received = true;
       MOSI_frame[byte_cnt] = MOSI_byte;
