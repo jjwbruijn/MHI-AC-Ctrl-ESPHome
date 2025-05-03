@@ -47,6 +47,8 @@ void MhiPlatform::loop() {
     int ret = mhi_ac_ctrl_core_.loop(100);
     if (ret < 0) {
         ESP_LOGE(TAG, "mhi_ac_ctrl_core,loop error: %i", ret);
+    } else {
+        ESP_LOGE(TAG, "mhi_Ac_ctrl_core,bytes %i", ret);
     }
 }
 
