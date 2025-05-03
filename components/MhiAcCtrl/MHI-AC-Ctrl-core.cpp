@@ -243,7 +243,7 @@ int MHI_AC_Ctrl_Core::loop(uint max_time_ms) {
 
   // wait for falling edge
   while (digitalRead(SCK_PIN)) {
-        yield();
+        //yield();
         if (millis() - startMillis > 1000)
           return err_msg_timeout_SCK_high;       // SCK stuck@ high error detection
    }
